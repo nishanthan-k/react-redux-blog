@@ -5,7 +5,7 @@ const initialState = [
   { id: 1,
     title: "React",
     content: "Frontend Library",
-    date: sub(new Date(), { minutes: 10 }).toISOString(),
+    date: sub(new Date(), { minutes: 7 }).toISOString(),
     reactions: {
       thumbsUp: 0,
       wow: 0,
