@@ -2,7 +2,7 @@
 
 This is a basic blog app built using React and Redux. It allows users to create posts with titles, content, and authors. Posts can be reacted to with reaction buttons, and the count increases upon clicking. The app also includes the ability to select an author, with "Unknown" as a fallback if no author is selected. The "Save Post" button is disabled until the title, content, and author fields are filled.
 
-![Blog App Preview](https://github.com/nishanthan-k/react-redux-blog/blob/main/public/screenshots/image.png "Blog App Preview")
+![Blog App Preview](https://github.com/nishanthan-k/react-redux-blog/blob/main/public/screenshots/blog-preview.png "Blog App Preview")
 
 ## Features
 
