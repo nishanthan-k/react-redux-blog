@@ -17,13 +17,17 @@ const PostsList = () => {
     }
   }, [postsStatus, dispatch])
 
-  console.log(postsStatus ,postsError);
-  posts.map(post => console.log(post))
+
   let content;
   if (postsStatus === 'loading') {
     content = <p>'Loading...'</p>;
   } else if (postsStatus === 'succeeded') {
-    const orderedPosts = posts.slice().sort((a, b) => b.date.localeCompare(a.date));
+    let orderedPosts = posts.slice().sort((a, b) => b.date.localeCompare(a.date));
+    // orderedPosts = orderedPosts.filter((item, index, self) => {
+    //   return index === self.findIndex((t) => (
+    //     t.userId === item.userId && t.id === item.id
+    //   ))
+    // })
     content = orderedPosts.map((post, index) => <PostsExcerpt key={index} post={post} />);
   } else if (postsStatus === 'failed') {
     content = <p>{postsError}</p>
