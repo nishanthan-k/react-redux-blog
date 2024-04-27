@@ -63,7 +63,7 @@ const AddPostForm = () => {
             id="postContent"
             value={content}
             onChange={onContentChanged}
-            className="px-1 min-h-32"
+            className="resize-none px-1 min-h-32"
           />
         </fieldset>
 

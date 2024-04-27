@@ -1,35 +1,38 @@
 import React from "react";
-import { useSelector } from "react-redux";
-import PostAuthor from "./PostAuthor";
-import TimeAgo from "./TimeAgo";
-import ReactionButtons from "./ReactionButtons";
+import { useSelector, useDispatch } from "react-redux";
+import { useEffect } from "react";
+import { selectAllPosts, getPostsStatus, getPostsError, fetchPosts } from "../postsSlice";
+import PostsExcerpt from "./PostsExcerpt";
 
 const PostsList = () => {
-  const posts = useSelector((state) => state.posts);
+  const dispatch = useDispatch();
 
-  const orderedPosts = posts.slice().sort((a, b) => b.date.localeCompare(a.date));
+  const posts = useSelector(selectAllPosts);
+  const postsStatus = useSelector(getPostsStatus);
+  const postsError = useSelector(getPostsError);
 
-  const renderPosts = orderedPosts.map((post) => {
-    return (
-      <div
-        key={post.id}
-        className="border border-slate-600 rounded-md mb-6 w-full flex flex-col items-center px-4 gap-2"
-      >
-        <h3 className="text-lg font-medium">{post.title}</h3>
-        <p className="text-wrap">{post.content.substring(0, 100)}</p>
-        <p>
-        <PostAuthor userId={post.id} />
-        <TimeAgo timestamp={post.date} />
-        </p>
-        <ReactionButtons post={post} />
-      </div>
-    );
-  });
+  useEffect(() => {
+    if (postsStatus === 'idle') {
+      dispatch(fetchPosts())
+    }
+  }, [postsStatus, dispatch])
+
+  console.log(postsStatus ,postsError);
+  posts.map(post => console.log(post))
+  let content;
+  if (postsStatus === 'loading') {
+    content = <p>'Loading...'</p>;
+  } else if (postsStatus === 'succeeded') {
+    const orderedPosts = posts.slice().sort((a, b) => b.date.localeCompare(a.date));
+    content = orderedPosts.map((post, index) => <PostsExcerpt key={index} post={post} />);
+  } else if (postsStatus === 'failed') {
+    content = <p>{postsError}</p>
+  }
 
   return (
     <section className="flex flex-col items-center w-3/4 lg:w-1/2">
       <h2 className="text-3xl font-bold my-6">Posts</h2>
-      {renderPosts}
+      {content}
     </section>
   );
 };

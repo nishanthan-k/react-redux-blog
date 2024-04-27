@@ -3,7 +3,7 @@ import PostsList from "./features/posts/components/PostsList";
 
 function App() {
   return (
-    <div className="bg-slate-300 w-screen h-screen flex flex-col items-center">
+    <div className="bg-slate-300 w-screen flex flex-col items-center">
       <AddPostForm />
       <PostsList />
     </div>

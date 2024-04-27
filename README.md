@@ -24,8 +24,8 @@ This is a basic blog app built using React and Redux. It allows users to create 
 1. Clone this repository.
 2. Navigate to the project directory.
 3. Install dependencies using `npm install`.
-4. Run the development server with `npm start`.
-5. Access the app in your browser at `http://localhost:3000`.
+4. Run the development server with `npm run dev`.
+5. Access the app in your browser at `http://localhost:5173`.
 
 ## Usage
 
