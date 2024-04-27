@@ -57,7 +57,7 @@ const postsSlice = createSlice({
     },
     addReactions: {
       reducer(state, action) {
-        const {postId, reaction} = action.payload;
+        const { postId, reaction } = action.payload;
         const existingPost = state.posts.find(post => post.id === postId);
 
         if (existingPost) {
@@ -76,7 +76,7 @@ const postsSlice = createSlice({
 
         let min = 1;
         const loadedPosts = action.payload.map(post => {
-          post.date = sub(new Date(), {minutes: min++}).toISOString()
+          post.date = sub(new Date(), { minutes: min++ }).toISOString()
           post.reactions = {
             thumbsUp: 0,
             wow: 0,
@@ -92,7 +92,7 @@ const postsSlice = createSlice({
         state.status = 'failed';
         state.error = action.err.message;
       })
-      .addCase(addNewPost.fulfilled, (state,action) => {
+      .addCase(addNewPost.fulfilled, (state, action) => {
         console.log(action.payload)
         action.payload.userId = Number(action.payload.userId);
         action.payload.date = new Date().toISOString();
@@ -109,7 +109,21 @@ const postsSlice = createSlice({
   }
 });
 
-export const selectAllPosts = state => state.posts.posts;
+export const selectAllPosts = (state) => {
+  // removing duplicates if have
+  const uniquePosts = state.posts.posts.filter((item, index, self) => {
+    return index === self.findIndex((t) => (
+      t.userId === item.userId && t.id === item.id
+    ));
+  });
+
+  return uniquePosts;
+};
+
+export const selectPostById = (state, postId) => {
+  state.posts.posts.find(post => post.id === postId)
+}
+
 export const getPostsStatus = state => state.posts.status;
 export const getPostsError = state => state.posts.error;
 

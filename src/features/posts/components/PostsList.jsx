@@ -23,19 +23,14 @@ const PostsList = () => {
     content = <p>'Loading...'</p>;
   } else if (postsStatus === 'succeeded') {
     let orderedPosts = posts.slice().sort((a, b) => b.date.localeCompare(a.date));
-    // orderedPosts = orderedPosts.filter((item, index, self) => {
-    //   return index === self.findIndex((t) => (
-    //     t.userId === item.userId && t.id === item.id
-    //   ))
-    // })
+
     content = orderedPosts.map((post, index) => <PostsExcerpt key={index} post={post} />);
   } else if (postsStatus === 'failed') {
     content = <p>{postsError}</p>
   }
 
   return (
-    <section className="flex flex-col items-center w-3/4 lg:w-1/2">
-      <h2 className="text-3xl font-bold my-6">Posts</h2>
+    <section className="flex flex-col items-center mt-6">
       {content}
     </section>
   );
