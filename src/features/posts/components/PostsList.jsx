@@ -30,7 +30,7 @@ const PostsList = () => {
   }
 
   return (
-    <section className="flex flex-col items-center mt-6">
+    <section className="flex flex-col items-center">
       {content}
     </section>
   );

@@ -4,7 +4,7 @@ import Header from './Header'
 
 const Layout = () => {
   return (
-    <main>
+    <main className='bg-slate-300 h-screen'>
       <Header />
       <Outlet />
     </main>

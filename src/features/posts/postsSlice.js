@@ -120,9 +120,14 @@ export const selectAllPosts = (state) => {
   return uniquePosts;
 };
 
-export const selectPostById = (state, postId) => {
-  state.posts.posts.find(post => post.id === postId)
-}
+export const selectPostById = (state, postId) => 
+  state.posts.posts.find(post => {
+    if (post.id === postId) {
+      console.log(post)
+      return post
+    }
+  })
+
 
 export const getPostsStatus = state => state.posts.status;
 export const getPostsError = state => state.posts.error;
