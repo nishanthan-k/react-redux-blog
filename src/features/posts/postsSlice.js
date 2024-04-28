@@ -29,6 +29,15 @@ export const addNewPost = createAsyncThunk("posts/addNewPost", async (initialPos
   }
 })
 
+export const updatePost = createAsyncThunk("posts/updatePost", async (postDetails) => {
+  try {
+    const response = await axios.put(`${POSTS_URL}/${postId}`, postDetails);
+    return response.data;
+  } catch (err) {
+    return err.message;
+  }
+})
+
 const postsSlice = createSlice({
   name: "posts",
   initialState,
@@ -120,13 +129,8 @@ export const selectAllPosts = (state) => {
   return uniquePosts;
 };
 
-export const selectPostById = (state, postId) => 
-  state.posts.posts.find(post => {
-    if (post.id === postId) {
-      console.log(post)
-      return post
-    }
-  })
+export const selectPostById = (state, postId) =>
+  state.posts.posts.find(post => post.id === postId)
 
 
 export const getPostsStatus = state => state.posts.status;

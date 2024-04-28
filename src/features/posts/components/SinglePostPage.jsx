@@ -1,15 +1,19 @@
-import React from 'react'
-import { useSelector } from 'react-redux'
-import { selectPostById } from '../postsSlice'
-import { useParams } from 'react-router-dom'
+import React, { useDebugValue, useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { fetchPosts, selectPostById } from '../postsSlice'
+import { Link, useParams } from 'react-router-dom'
 import PostAuthor from './PostAuthor'
 import TimeAgo from './TimeAgo'
 import ReactionButtons from './ReactionButtons'
 
 const SinglePostPage = () => {
+  const dispatch = useDispatch();
   const { postId } = useParams()
-  console.log(typeof postId, postId);
   const post = useSelector((state) => selectPostById(state, Number(postId)))
+
+  useEffect(() => {
+    dispatch(fetchPosts())
+  }, [dispatch])
 
   if (!post) {
     return (
@@ -26,9 +30,9 @@ const SinglePostPage = () => {
           <p className="text-lg">{post.body}</p>
         </section>
         <section className='flex flex-col gap-1 mt-4'>
-          {/* <Link to={`post/${post.id}`} className='underline'>
-          View Post
-        </Link> */}
+          <Link to={`/post/edit/${post.id}`} className='underline'>
+            Edit Post
+          </Link>
           <div className='flex justify-between flex-wrap'>
             <PostAuthor userId={post.userId} />
             <TimeAgo timestamp={post.date} />
