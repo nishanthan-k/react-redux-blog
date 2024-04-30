@@ -77,7 +77,6 @@ const EditPostForm = () => {
     }
   }
 
-  console.log(requestStatus, requestStatus === 'idle');
 
   return (
     <div className="my-4 flex flex-col items-center">
