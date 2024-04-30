@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { selectAllUsers } from "../../users/usersSlice";
-import { fetchPosts, selectPostById, updatePost } from "../postsSlice";
+import { deletePost, fetchPosts, selectPostById, updatePost } from "../postsSlice";
 
 const EditPostForm = () => {
   const { postId } = useParams();
@@ -41,9 +41,9 @@ const EditPostForm = () => {
         setEditRequestStatus("pending");
         dispatch(updatePost({ postId: post.id, title, body: content, userId: Number(userId), reactions: post.reactions }));
 
-        // setTitle("");
-        // setContent("");
-        // setUserId("");
+        setTitle("");
+        setContent("");
+        setUserId("");
         navigate(`/post/${post.id}`);
       } catch (err) {
         console.error("Failed to save the post", err);
@@ -53,12 +53,29 @@ const EditPostForm = () => {
     }
   }
 
-
   const usersOptions = users.map(user => (
     <option key={user.id} value={user.id} >
       {user.name}
     </option>
   ))
+
+  const deleteHandler = () => {
+    if (enableSave) {
+      try {
+        setEditRequestStatus("pending");
+        dispatch(deletePost({ postId: post.id }));
+
+        setTitle("");
+        setContent("");
+        setUserId("");
+        navigate('/');
+      } catch (err) {
+        console.error("Failed to delete the post", err);
+      } finally {
+        setEditRequestStatus("idle");
+      }
+    }
+  }
 
   return (
     <div className="my-4 flex flex-col items-center">
@@ -102,6 +119,14 @@ const EditPostForm = () => {
             disabled={!enableSave}
           >
             Save Post
+          </button>
+
+          <button
+            type="button"
+            className={`w-full h-8 mt-3 ${!enableSave ? "bg-slate-100 text-slate-500" : "bg-slate-400 text-black"}`} onClick={deleteHandler}
+            disabled={!enableSave}
+          >
+            Delete Post
           </button>
         </form>
       </section>
