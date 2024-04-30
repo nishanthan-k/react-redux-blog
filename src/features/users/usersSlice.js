@@ -1,6 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-import { useEffect } from "react";
 
 const USERS_URL = "https://jsonplaceholder.typicode.com/users";
 
@@ -14,8 +13,6 @@ export const fetchUsers = createAsyncThunk("users/fetchUsers", async () => {
       return err.message;
   }
 })
-
-// useEffect(() => fetchUsers(), [])
 
 const usersSlice = createSlice({
   name: "users",

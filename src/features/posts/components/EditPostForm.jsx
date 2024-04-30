@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { selectAllUsers } from "../../users/usersSlice";
-import { addNewPost, fetchPosts, selectPostById, updatePost } from "../postsSlice";
 import { useNavigate, useParams } from "react-router-dom";
+import { selectAllUsers } from "../../users/usersSlice";
+import { fetchPosts, selectPostById, updatePost } from "../postsSlice";
 
 const EditPostForm = () => {
   const { postId } = useParams();
@@ -39,13 +39,12 @@ const EditPostForm = () => {
     if (enableSave) {
       try {
         setEditRequestStatus("pending");
-        dispatch(updatePost({ postId: post.id, title, body: content, userId }));
-        // dispatch(updatePost({  postId: postId, postContent: {title, body: content, userId} }));
+        dispatch(updatePost({ postId: post.id, title, body: content, userId: Number(userId), reactions: post.reactions }));
 
         // setTitle("");
         // setContent("");
         // setUserId("");
-        navigate("/post/1");
+        navigate(`/post/${post.id}`);
       } catch (err) {
         console.error("Failed to save the post", err);
       } finally {
