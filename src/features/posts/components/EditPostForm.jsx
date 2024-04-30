@@ -18,7 +18,7 @@ const EditPostForm = () => {
   const [title, setTitle] = useState(post?.title || "");
   const [content, setContent] = useState(post?.body || "");
   const [userId, setUserId] = useState(post?.userId || "");
-  const [addRequestStatus, setEditRequestStatus] = useState("idle");
+  const [requestStatus, setRequestStatus] = useState("idle");
 
   useEffect(() => {
     setTitle(post?.title || "");
@@ -33,12 +33,12 @@ const EditPostForm = () => {
   const onContentChanged = (e) => setContent(e.target.value);
   const onAuthorChanged = (e) => setUserId(e.target.value);
 
-  const enableSave = [title, content, userId].every(Boolean) && addRequestStatus === "idle";
+  const enableSave = [title, content, userId].every(Boolean) && requestStatus === "idle";
 
   const saveHandler = () => {
     if (enableSave) {
       try {
-        setEditRequestStatus("pending");
+        setRequestStatus("pending");
         dispatch(updatePost({ postId: post.id, title, body: content, userId: Number(userId), reactions: post.reactions }));
 
         setTitle("");
@@ -48,7 +48,7 @@ const EditPostForm = () => {
       } catch (err) {
         console.error("Failed to save the post", err);
       } finally {
-        setEditRequestStatus("idle");
+        setRequestStatus("idle");
       }
     }
   }
@@ -62,7 +62,7 @@ const EditPostForm = () => {
   const deleteHandler = () => {
     if (enableSave) {
       try {
-        setEditRequestStatus("pending");
+        setRequestStatus("pending");
         dispatch(deletePost({ postId: post.id }));
 
         setTitle("");
@@ -72,10 +72,12 @@ const EditPostForm = () => {
       } catch (err) {
         console.error("Failed to delete the post", err);
       } finally {
-        setEditRequestStatus("idle");
+        setRequestStatus("idle");
       }
     }
   }
+
+  console.log(requestStatus, requestStatus === 'idle');
 
   return (
     <div className="my-4 flex flex-col items-center">
@@ -115,18 +117,20 @@ const EditPostForm = () => {
 
           <button
             type="button"
-            className={`w-full h-8 mt-3 ${!enableSave ? "bg-slate-100 text-slate-500" : "bg-slate-400 text-black"}`} onClick={saveHandler}
-            disabled={!enableSave}
+            className={`w-full h-8 mt-3 ${requestStatus !== 'idle' ? "bg-slate-100 text-slate-500" : "bg-red-500 text-black"}`}
+            onClick={deleteHandler}
+            disabled={requestStatus === 'pending'}
           >
-            Save Post
+            Delete Post
           </button>
+
 
           <button
             type="button"
-            className={`w-full h-8 mt-3 ${!enableSave ? "bg-slate-100 text-slate-500" : "bg-slate-400 text-black"}`} onClick={deleteHandler}
+            className={`w-full h-8 mt-3 ${!enableSave ? "bg-slate-100 text-slate-400" : "bg-slate-500 text-white"}`} onClick={saveHandler}
             disabled={!enableSave}
           >
-            Delete Post
+            Save Post
           </button>
         </form>
       </section>
