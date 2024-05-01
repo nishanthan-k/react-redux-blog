@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice, nanoid } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSelector, createSlice, nanoid } from "@reduxjs/toolkit";
 import axios from 'axios';
 import { sub } from "date-fns";
 
@@ -165,8 +165,13 @@ export const selectAllPosts = (state) => {
   return uniquePosts;
 };
 
-export const selectPostById = (state, postId) =>
+export const selectPostsById = (state, postId) =>
   state.posts.posts.find(post => post.id === postId)
+
+export const selectPostsByUser = createSelector(
+  [selectAllPosts, (state, userId) => userId],
+  (posts, userId) => posts.filter(post => post.userId === userId)
+)
 
 
 export const getPostsStatus = state => state.posts.status;

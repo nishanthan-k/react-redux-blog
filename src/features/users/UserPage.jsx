@@ -1,14 +1,25 @@
 import { useSelector } from "react-redux";
 import { Link, useParams } from "react-router-dom";
-import { selectAllPosts } from "../posts/postsSlice";
+import { selectAllPosts, selectPostsByUser } from "../posts/postsSlice";
 import { selectUserById } from "./usersSlice";
 
 const UserPage = () => {
   const { userId } = useParams();
   const user = useSelector(state => selectUserById(state, Number(userId)));
-  const allPosts = useSelector(selectAllPosts);
+  // const allPosts = useSelector(selectAllPosts);
 
-  const userPosts = allPosts.filter(post => post.userId === Number(userId)).sort((a, b) => a.date - b.date);
+  // const userPosts = allPosts.filter(post => post.userId === Number(userId)).sort((a, b) => a.date - b.date);
+
+  const userPosts = useSelector(state => {
+    const posts = selectPostsByUser(state, Number(userId))
+    console.log(posts, posts.sort((a, b) => a.date - b.date));
+    return posts.sort((a, b) => a.date - b.date);
+  })
+
+  // const userPosts1 = useSelector(state => selectPostsByUser(state, Number(userId))).sort((a, b) => b.date - a.date);
+
+
+  console.log(userPosts);
 
   const renderPostTitles = userPosts.map((post, index) => (
     <li key={post.id} className="mt-2 px-3">

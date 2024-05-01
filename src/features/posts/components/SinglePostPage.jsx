@@ -1,6 +1,6 @@
 import React, { useDebugValue, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { fetchPosts, selectPostById } from '../postsSlice'
+import { fetchPosts, selectPostsById } from '../postsSlice'
 import { Link, useParams } from 'react-router-dom'
 import PostAuthor from './PostAuthor'
 import TimeAgo from './TimeAgo'
@@ -9,7 +9,7 @@ import ReactionButtons from './ReactionButtons'
 const SinglePostPage = () => {
   const dispatch = useDispatch();
   const { postId } = useParams()
-  const post = useSelector((state) => selectPostById(state, Number(postId)))
+  const post = useSelector((state) => selectPostsById(state, Number(postId)))
 
   useEffect(() => {
     dispatch(fetchPosts())
