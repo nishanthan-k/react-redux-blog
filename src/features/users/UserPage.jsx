@@ -20,10 +20,10 @@ const UserPage = () => {
     <section className="mt-3 px-10 flex flex-col items-center" >
       <h2 className="text-2xl font-medium" >{user?.name}</h2>
       {userPosts && (
-        <>
+        <div className="mt-2">
           <p className="self-start text-xl font-medium" >User Posts</p>
           <ol>{renderPostTitles}</ol>
-        </>
+        </div>
       )}
     </section>
   )
