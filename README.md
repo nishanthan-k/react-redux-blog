@@ -18,6 +18,7 @@ This is a basic blog app built using React and Redux. It allows users to create 
 - React
 - Redux
 - date-fns
+- Tailwind CSS
 
 ## Getting Started
 
